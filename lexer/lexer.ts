@@ -1,4 +1,5 @@
 import { Token, Tokens } from '../token/token';
+const colors = require('colors');
 
 export class Lexer {
     input: string;
@@ -48,7 +49,7 @@ export class Lexer {
         while (this.isLetter(this.ch)) {
             this.readChar()
         }
-        return this.input.slice(position, this.position - position)
+        return this.input.slice(position, this.position)
     }
 
     public readNumber(): string {
@@ -56,14 +57,12 @@ export class Lexer {
         while (this.isDigit(this.ch)) {
             this.readChar()
         }
-        return this.input.slice(position, this.position - position)
+        return this.input.slice(position, this.position)
     }
 
     public nextToken() {
-        
         let tok: Token;
         this.skipWhiteSpace();
-        console.log(this.ch)
         switch (this.ch) {
             case '=':
                 if (this.peekChar() == '=') {

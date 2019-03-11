@@ -1,7 +1,19 @@
 import readline from 'readline-promise';
 import {Lexer} from '../lexer/lexer';
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
+const keypress = require('keypress');
+const cp = require('child_process');
+const child = cp.spawn('bash');
+const stdin = process.stdin; 
+// keypress(stdin); 
+// stdin.setRawMode(true);
+stdin.resume();
+stdin.setEncoding('utf8');
+// stdin.on('keypress', function (ch, key) {
+//     console.log('got "keypress"', key);
+//     if (key && key.ctrl && key.name == 'c') {
+//       process.stdin.pause();
+//     }
+// });
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,14 +27,12 @@ rl.on('line', async function(line){
 
 const PROMPT = '>> ';
 
-
 export async function  Start() {
     while(1){
         let input = await rl.questionAsync(PROMPT);
         let lexer = new Lexer(input);
         // lexer.nextToken()
         let current_token = null;
-        console.log(lexer.nextToken())
 
         while(current_token = lexer.nextToken()) {
             console.log(current_token);
