@@ -1,5 +1,7 @@
 import readline from 'readline-promise';
 import {Lexer} from '../lexer/lexer';
+import { Parser } from '../parser/parser';
+const colors = require('colors');
 const keypress = require('keypress');
 const cp = require('child_process');
 const child = cp.spawn('bash');
@@ -31,12 +33,25 @@ export async function  Start() {
     while(1){
         let input = await rl.questionAsync(PROMPT);
         let lexer = new Lexer(input);
-        // lexer.nextToken()
-        let current_token = null;
+        let parser = new Parser(lexer);
+        let program = parser.ParseProgram();
 
-        while(current_token = lexer.nextToken()) {
-            console.log(current_token);
-            if(current_token.Literal == 'EOF') break;
-        }
+        if(parser.Errors().length !== 0 ) {
+            printParserErrors(parser.Errors())
+            continue;
+        }  
+
+        // let current_token = null;
+        // while(current_token = lexer.nextToken()) {
+        //     console.log(current_token);
+        //     if(current_token.Literal == 'EOF') break;
+        // }
+    }
+}
+
+
+function printParserErrors(errors = []) {
+    while(errors.length){
+        console.log(colors.red(errors.pop()))
     }
 }

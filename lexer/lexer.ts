@@ -15,7 +15,7 @@ export class Lexer {
     }
 
     public readChar() {
-        if (this.readPosition > this.input.length) {
+        if (this.readPosition >= this.input.length) {
             this.ch = 'EOF';
         } else {
             this.ch = this.input[this.readPosition];
@@ -33,7 +33,7 @@ export class Lexer {
     }
 
     public peekChar() {
-        if (this.readPosition > this.input.length) {
+        if (this.readPosition >= this.input.length) {
             return "EOF";
         } else {
             return this.input[this.readPosition];
@@ -92,7 +92,7 @@ export class Lexer {
                 tok = this.newToken(Tokens.ASTERISK, this.ch)
                 break
             case '<':
-                tok = this.newToken(Tokens.LT, this.ch)
+                tok = this.newToken(Tokens.LT,  this.ch)
                 break
             case '>':
                 tok = this.newToken(Tokens.GT, this.ch)
@@ -115,14 +115,21 @@ export class Lexer {
             case ')':
                 tok = this.newToken(Tokens.RPAREN, this.ch)
                 break
+            case '[':
+                tok = this.newToken(Tokens.LBRACKET, this.ch)
+                break
+            case ']':
+                tok = this.newToken(Tokens.RBRACKET, this.ch)
+                break
             case 'EOF':
                 tok = this.newToken(Tokens.EOF, "EOF")
                 break
             default:
                 if (this.isLetter(this.ch)) {
-                    let type = Token.LookupIdent(this.ch)
                     let literal = this.readIdentifier()
+                    let type = Token.LookupIdent(literal)
                     tok = this.newToken(type, literal)
+                  
                     return tok
                 } else if (this.isDigit(this.ch)) {
                     let type = Tokens.INT

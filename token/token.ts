@@ -30,6 +30,8 @@ export enum Tokens {
 	RPAREN = ")",
 	LBRACE = "{",
 	RBRACE = "}",
+	LBRACKET = "[",
+	RBRACKET = "]",
 
 	// Keywords
 	FUNCTION = "FUNCTION",
@@ -40,17 +42,17 @@ export enum Tokens {
 	ELSE     = "ELSE",
 	RETURN   = "RETURN",
 }
-type Type = string;
-type Literal = string;
+export type TokenType = string;
+export type Literal = string;
 // type Token = {
 // 	Type,
 // 	Literal
 // }
 
 export class Token {
-    public static Type: Type;
+    public static Type: TokenType;
 	public static Literal: Literal;
-	public static LookupIdent(ident:string):Type {
+	public static LookupIdent(ident:string):TokenType {
 		if(keywords[ident]) {
 			return keywords[ident]
 		}
@@ -67,3 +69,7 @@ var keywords = {
 	"return": Tokens.RETURN,
 }
 
+type LetStatement = {
+	Token: Token;
+	Name: string
+}
