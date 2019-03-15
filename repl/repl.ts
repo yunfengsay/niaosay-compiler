@@ -31,15 +31,21 @@ const PROMPT = '>> ';
 
 export async function  Start() {
     while(1){
-        let input = await rl.questionAsync(PROMPT);
-        let lexer = new Lexer(input);
-        let parser = new Parser(lexer);
-        let program = parser.ParseProgram();
-
-        if(parser.Errors().length !== 0 ) {
-            printParserErrors(parser.Errors())
+        try{
+            let input = await rl.questionAsync(PROMPT);
+            let lexer = new Lexer(input);
+            let parser = new Parser(lexer);
+            let program = parser.ParseProgram();
+    
+            if(parser.Errors().length !== 0 ) {
+                printParserErrors(parser.Errors())
+                continue;
+            }  
+    
+        }catch(e){
+            throw(e)
             continue;
-        }  
+        }
 
         // let current_token = null;
         // while(current_token = lexer.nextToken()) {

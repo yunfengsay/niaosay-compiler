@@ -16,7 +16,8 @@ import {
     BlockStatement,
     FunctionLiteral,
     InfixExpression,
-    ReturnStatement
+    ReturnStatement,
+    CallExpression
 } from '../ast/ast';
 
 
@@ -72,6 +73,8 @@ export class Parser {
         this.registerInfix(Tokens.NOT_EQ, this.parseInfixExpression)
         this.registerInfix(Tokens.LT, this.parseInfixExpression)
         this.registerInfix(Tokens.GT, this.parseInfixExpression)
+
+        this.registerInfix(Tokens.LPAREN, this.parseCallExpression)
         this.nextToken();
         this.nextToken();
         return this;
@@ -81,8 +84,8 @@ export class Parser {
         return this.errors;
     }
     public nextToken() {
-        this.curToken = this.peekToken
-        this.peekToken = this.l.nextToken()
+        this.curToken = this.peekToken;
+        this.peekToken = this.l.nextToken();
     }
     public curTokenIs(t: TokenType): boolean {
         return this.curToken.Type == t;
@@ -121,7 +124,7 @@ export class Parser {
             case Tokens.LET:
                 return this.parseLetStatement();
             case Tokens.RETURN:
-		        return this.parseReturnStatement()
+		        return this.parseReturnStatement();
             default:
                 return this.parseExpressionStatement();
         }
@@ -163,6 +166,31 @@ export class Parser {
         return stmt;
     }
 
+    public parseCallExpression(fn) {
+        let exp = new CallExpression();
+        exp.Token = this.curToken;
+        exp.Function = fn;
+        exp.Arguments = this.parseCallArguments();
+        return exp
+    }
+    public parseCallArguments() {
+        let args = [];
+        if(this.peekTokenIs(Tokens.RPAREN)){
+            this.nextToken();
+            return args;
+        }
+        this.nextToken();
+        args.push(this.parseExpression(Level.LOWEST));
+        while(this.peekTokenIs(Tokens.COMMA)) {
+            this.nextToken();
+            this.nextToken();
+            args.push(this.parseExpression(Level.LOWEST));
+        }
+        if(!this.peekToken(Tokens.RPAREN)){
+            return null
+        }
+        return args;
+    }
     public parseIdentifier() {
         let identifier =  new Identifier();
         identifier.Token = this.curToken;
@@ -174,7 +202,7 @@ export class Parser {
         let lit = new IntegerLiteral();
         lit.Token = this.curToken.Token;
         let value = Number(this.curToken.Literal);
-        if (value === NaN) {
+        if (Number.isNaN(value)) {
             let err = `could not parse ${this.curToken.Literal} as integer`;
             this.errors.push(err);
             return null;
@@ -213,7 +241,7 @@ export class Parser {
     public parsePrefixExpression() {
         let expression = new PrefixExpression(this.curToken.Token, this.curToken.Literal);
         this.nextToken();
-        expression.Right = this.parseExpression(Level.PREFIX)
+        expression.Right = this.parseExpression(Level.PREFIX);
         return expression;
     }
 
@@ -306,7 +334,7 @@ export class Parser {
         let ident = new Identifier();
         ident.Token = this.curToken.Token;
         ident.Value = this.curToken.Literal;
-        identifiers.push(ident)
+        identifiers.push(ident);
         while(this.peekTokenIs(Tokens.COMMA)) {
             this.nextToken();
             this.nextToken();

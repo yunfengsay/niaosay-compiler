@@ -94,3 +94,9 @@ export class ReturnStatement extends Expression{
 	Token:      Token
 	ReturnValue: Expression
 }
+
+export class CallExpression extends Expression {
+    Token:      Token
+    Function: Expression
+    Arguments =[] // []Expression
+}
