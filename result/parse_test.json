@@ -1,0 +1,1 @@
+{"Statements":[{"Token":{"Type":"LET","Literal":"let"},"Name":{"Token":{"Type":"IDENT","Literal":"id"}},"Value":{"Value":1}},{"Expression":{"Token":{"Type":"IDENT","Literal":"id"},"Value":"id"}},{"Expression":{"Arguments":[],"Token":{"Type":"(","Literal":"("},"Function":{"Token":{"Type":"IDENT","Literal":"print"},"Value":"print"}}}]}

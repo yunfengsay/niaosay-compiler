@@ -186,7 +186,7 @@ export class Parser {
             this.nextToken();
             args.push(this.parseExpression(Level.LOWEST));
         }
-        if(!this.peekToken(Tokens.RPAREN)){
+        if(!this.peekTokenIs(Tokens.RPAREN)){
             return null
         }
         return args;

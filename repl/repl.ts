@@ -36,7 +36,7 @@ export async function  Start() {
             let lexer = new Lexer(input);
             let parser = new Parser(lexer);
             let program = parser.ParseProgram();
-    
+            console.log(program);
             if(parser.Errors().length !== 0 ) {
                 printParserErrors(parser.Errors())
                 continue;
