@@ -5,7 +5,7 @@ entrance = index.ts
 install:
 	cnpm i
 
-start:
+run:
 	$(node) $(entrance)
 
 watch:

@@ -1,12 +1,27 @@
 {
   "compilerOptions": {
-      "module": "commonjs",
-      "target": "es5",
-      "noImplicitAny": true,
-      "outDir": "./dist",
-      "sourceMap": true
+    "baseUrl": ".",
+    "noImplicitAny": true,
+    "allowJs": false,
+    "target": "es2017",
+    "lib": ["es5", "es6", "ES2015.Iterable", "esnext", "esnext.array", "esnext.asynciterable"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "stripInternal": false,
+    "pretty": true,
+    "declaration": false,
+    "sourceMap": true,
+    "outDir": "dist",
+    "preserveConstEnums": false,
+    "skipLibCheck": true
   },
-  "include": [
-      "*/*"
+  "exclude": [
+    "dist",
+    "./node_modules",
+    "test"
   ]
 }

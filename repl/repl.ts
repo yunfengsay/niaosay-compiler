@@ -1,6 +1,8 @@
 import readline from 'readline-promise';
 import {Lexer} from '../lexer/lexer';
 import { Parser } from '../parser/parser';
+import {Evaluator} from '../eval/evaluator';
+import {NewEnvironment} from '../object/environment';
 const colors = require('colors');
 const keypress = require('keypress');
 const cp = require('child_process');
@@ -30,23 +32,27 @@ rl.on('line', async function(line){
 const PROMPT = '>> ';
 
 export async function  Start() {
+    const evaluator = new Evaluator();
+    const env = NewEnvironment();
     while(1){
         try{
             let input = await rl.questionAsync(PROMPT);
             let lexer = new Lexer(input);
             let parser = new Parser(lexer);
             let program = parser.ParseProgram();
-            console.log(program);
+            // console.log(program);
             if(parser.Errors().length !== 0 ) {
                 printParserErrors(parser.Errors())
                 continue;
-            }  
-    
+            }
+            let evaluated = evaluator.Eval(program, env);
+            if(evaluated) {
+                console.log(evaluated,JSON.stringify(evaluated))
+            }
         }catch(e){
             throw(e)
             continue;
         }
-
         // let current_token = null;
         // while(current_token = lexer.nextToken()) {
         //     console.log(current_token);

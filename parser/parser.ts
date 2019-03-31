@@ -150,7 +150,7 @@ export class Parser {
 
         stmt.Name = new Identifier();
         stmt.Name.Token = this.curToken;
-        stmt.Name.Value = this.curToken.Value;
+        stmt.Name.Value = this.curToken.Literal;
         
         if (!this.expectPeek(Tokens.ASSIGN)) {
             return null;

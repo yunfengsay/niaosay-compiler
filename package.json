@@ -19,7 +19,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha -r ./node_modules/ts-node/register ./test/*.ts",
-    "start": "ts-node index.ts"
+    "start": "node index.ts"
   },
   "author": "",
   "license": "ISC"
