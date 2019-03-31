@@ -47,7 +47,8 @@ export async function  Start() {
             }
             let evaluated = evaluator.Eval(program, env);
             if(evaluated) {
-                console.log(evaluated,JSON.stringify(evaluated))
+                console.log(evaluated.Inspect())
+                // console.log(evaluated,JSON.stringify(evaluated))
             }
         }catch(e){
             throw(e)

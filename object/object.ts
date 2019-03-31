@@ -12,11 +12,15 @@ export enum ObjTypes {
 
 export class Obj {
     type: string
+    Value
     constructor(val?){
 
     }
     Type():string {
         return this.type
+    }
+    Inspect() {
+        return this.Value
     }
 }
 
